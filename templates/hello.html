@@ -10,7 +10,7 @@
     <h1>Hello, Japan!</h1>
     <ul>
         {% for bullet in bullets_h %}
-        <li>{{ bullet }}</li>
+        <li>{{ bullet, loop.index }}</li>
         {% endfor %}
     </ul>
 </body>
