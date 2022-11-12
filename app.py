@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pytz
@@ -18,6 +18,16 @@ class Post(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route("/create")
+@app.route("/create", methods=['GET', 'POST'])
 def create():
-    return render_template('create.html')
+    if request.method == 'POST':
+        title = request.form.get('title')
+        body = request.form.get('body')
+        
+        post = Post(title=title, body=body)
+        
+        db.session.add(post)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template('create.html')
